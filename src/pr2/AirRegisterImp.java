@@ -39,6 +39,14 @@ public class AirRegisterImp implements AirRegister {
 
     @Override
     public Company findCompany(AircraftID id) {
+        Iterator<Company> it = this.companies.keySet().iterator();
+        while(it.hasNext()) {
+            Company _c = it.next();
+            Collection<Aircraft> aircrafts = this.companies.get(_c);
+            for(Aircraft _a : aircrafts) {
+                if (_a.getId().equals(id)) return _c;
+            }
+        }
         return null;
     }
 
