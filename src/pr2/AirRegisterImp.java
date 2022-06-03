@@ -1,6 +1,7 @@
 package pr2;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentMap;
 
 public class AirRegisterImp implements AirRegister {
 
@@ -57,6 +58,18 @@ public class AirRegisterImp implements AirRegister {
 
     @Override
     public SortedSet<Company> findCompanyByType(AircraftType t) {
-        return null;
+        TreeSet<Company> result = new TreeSet<Company>();
+        Iterator<Company> it = this.companies.keySet().iterator();
+        while(it.hasNext()) {
+            Company c = it.next();
+            Collection<Aircraft> aircrafts = this.companies.get(c);
+            for(Aircraft a : aircrafts) {
+                if (a.getType().equals(t)) {
+                    result.add(c);
+                    continue;
+                }
+            }
+        }
+        return result;
     }
 }
