@@ -22,12 +22,10 @@ public class AirRegisterImp implements AirRegister {
     public boolean registerAircraft(Company c, Aircraft a) {
         if(!this.companies.containsKey(c)) throw new UnknownCompanyException("La companyia no està registrada");
 
-        Iterator<Company> it = this.companies.keySet().iterator();
-        while(it.hasNext()) {
-            Company _c = it.next();
-            if(_c.equals(c)) continue;
+        for (Company _c : this.companies.keySet()) {
+            if (_c.equals(c)) continue;
             Collection<Aircraft> aircrafts = this.companies.get(_c);
-            for(Aircraft _a : aircrafts) {
+            for (Aircraft _a : aircrafts) {
                 if (_a.equals(a)) throw new DifferentCompanyException("El avió esta registrat en un altre companyia");
             }
         }
@@ -40,11 +38,9 @@ public class AirRegisterImp implements AirRegister {
 
     @Override
     public Company findCompany(AircraftID id) {
-        Iterator<Company> it = this.companies.keySet().iterator();
-        while(it.hasNext()) {
-            Company _c = it.next();
+        for (Company _c : this.companies.keySet()) {
             Collection<Aircraft> aircrafts = this.companies.get(_c);
-            for(Aircraft _a : aircrafts) {
+            for (Aircraft _a : aircrafts) {
                 if (_a.getId().equals(id)) return _c;
             }
         }
@@ -59,14 +55,11 @@ public class AirRegisterImp implements AirRegister {
     @Override
     public SortedSet<Company> findCompanyByType(AircraftType t) {
         TreeSet<Company> result = new TreeSet<Company>();
-        Iterator<Company> it = this.companies.keySet().iterator();
-        while(it.hasNext()) {
-            Company c = it.next();
+        for (Company c : this.companies.keySet()) {
             Collection<Aircraft> aircrafts = this.companies.get(c);
-            for(Aircraft a : aircrafts) {
+            for (Aircraft a : aircrafts) {
                 if (a.getType().equals(t)) {
                     result.add(c);
-                    continue;
                 }
             }
         }
