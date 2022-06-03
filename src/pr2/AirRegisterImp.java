@@ -13,13 +13,24 @@ public class AirRegisterImp implements AirRegister {
     @Override
     public boolean addCompany(Company c) {
         if(this.companies.containsKey(c)) return false;
-        this.companies.put(c, new LinkedList<Aircraft>());
+        this.companies.put(c, new TreeSet<Aircraft>());
         return true;
     }
 
     @Override
     public boolean registerAircraft(Company c, Aircraft a) {
-        return false;
+        if(!this.companies.containsKey(c)) throw new UnknownCompanyException("La companyia no està registrada");
+
+        Iterator<Company> it = this.companies.keySet().iterator();
+        while(it.hasNext()) {
+            Company _c = it.next();
+            if (this.companies.get(_c).equals(a)) throw new DifferentCompanyException("El avió esta registrat en un altre companyia");
+        }
+
+        Collection<Aircraft> aircrafts = this.companies.get(c);
+        boolean added = aircrafts.add(a);
+        this.companies.put(c, aircrafts);
+        return added;
     }
 
     @Override
