@@ -24,7 +24,11 @@ public class AirRegisterImp implements AirRegister {
         Iterator<Company> it = this.companies.keySet().iterator();
         while(it.hasNext()) {
             Company _c = it.next();
-            if (this.companies.get(_c).equals(a)) throw new DifferentCompanyException("El avió esta registrat en un altre companyia");
+            if(_c.equals(c)) continue;
+            Collection<Aircraft> aircrafts = this.companies.get(_c);
+            for(Aircraft _a : aircrafts) {
+                if (_a.equals(a)) throw new DifferentCompanyException("El avió esta registrat en un altre companyia");
+            }
         }
 
         Collection<Aircraft> aircrafts = this.companies.get(c);
