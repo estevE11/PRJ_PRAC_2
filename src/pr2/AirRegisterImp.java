@@ -22,9 +22,10 @@ public class AirRegisterImp implements AirRegister {
     public boolean registerAircraft(Company c, Aircraft a) {
         if(!this.companies.containsKey(c)) throw new UnknownCompanyException("La companyia no està registrada");
 
-        for (Company _c : this.companies.keySet()) {
+        for (Map.Entry<Company, Collection<Aircraft>> entry : this.companies.entrySet()) {
+            Company _c = entry.getKey();
             if (_c.equals(c)) continue;
-            Collection<Aircraft> aircrafts = this.companies.get(_c);
+            Collection<Aircraft> aircrafts = entry.getValue();
             for (Aircraft _a : aircrafts) {
                 if (_a.equals(a)) throw new DifferentCompanyException("El avió esta registrat en un altre companyia");
             }
@@ -38,10 +39,10 @@ public class AirRegisterImp implements AirRegister {
 
     @Override
     public Company findCompany(AircraftID id) {
-        for (Company _c : this.companies.keySet()) {
-            Collection<Aircraft> aircrafts = this.companies.get(_c);
+        for (Map.Entry<Company, Collection<Aircraft>> entry : this.companies.entrySet()) {
+            Collection<Aircraft> aircrafts = entry.getValue();
             for (Aircraft _a : aircrafts) {
-                if (_a.getId().equals(id)) return _c;
+                if (_a.getId().equals(id)) return entry.getKey();
             }
         }
         return null;
@@ -55,7 +56,8 @@ public class AirRegisterImp implements AirRegister {
     @Override
     public SortedSet<Company> findCompanyByType(AircraftType t) {
         TreeSet<Company> result = new TreeSet<Company>();
-        for (Company c : this.companies.keySet()) {
+        for (Map.Entry<Company, Collection<Aircraft>> entry : this.companies.entrySet()) {
+            Company c = entry.getKey();
             Collection<Aircraft> aircrafts = this.companies.get(c);
             for (Aircraft a : aircrafts) {
                 if (a.getType().equals(t)) {
