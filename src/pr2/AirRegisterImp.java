@@ -37,7 +37,7 @@ public class AirRegisterImp implements AirRegister {
 
         Collection<Aircraft> aircrafts = this.companies.get(c);
         boolean added = aircrafts.add(a);
-        this.companies.put(c, aircrafts);
+        if(added) this.companies.put(c, aircrafts);
         return added;
     }
 
