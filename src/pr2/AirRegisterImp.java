@@ -52,7 +52,8 @@ public class AirRegisterImp implements AirRegister {
     public SortedSet<Aircraft> registeredAircrafts(Company c) {
         AscendingYearComparator ascendingYearComparator = new AscendingYearComparator();
         TreeSet<Aircraft> result = new TreeSet<>(ascendingYearComparator);
-        for (Company _c : this.companies.keySet()){
+        for (Map.Entry<Company, Collection<Aircraft>> entry : this.companies.entrySet()) {
+            Company _c = entry.getKey();
             if (_c.equals(c)){
                 result.addAll(this.companies.get(_c));
             }
