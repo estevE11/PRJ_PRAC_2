@@ -26,7 +26,7 @@ public class AirRegisterImp implements AirRegister {
             /*
             No guardem el valor de "entry.getKey()" o de "entry.getValue()" en una variable ja que, al ser
             metodes molt senzills en els quals nomes s'utilitzen una vegada, no ho creiem necessari. En cas
-            que els aquests valor s'utilitzessin mes d'una vegada si que seria mes convenient guardar-los
+            que els aquests valor s'utilitzessin mes d'una vegada si que potser seria mes convenient guardar-los
             en una variable per tal de poder-los reutilitzar mes facilment i que el codi sigui mes llegible.
              */
             if (entry.getKey().equals(c)) continue;
