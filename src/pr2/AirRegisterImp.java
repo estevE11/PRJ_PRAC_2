@@ -50,7 +50,14 @@ public class AirRegisterImp implements AirRegister {
 
     @Override
     public SortedSet<Aircraft> registeredAircrafts(Company c) {
-        return null;
+        AscendingYearComparator ascendingYearComparator = new AscendingYearComparator();
+        TreeSet<Aircraft> result = new TreeSet<>(ascendingYearComparator);
+        for (Company _c : this.companies.keySet()){
+            if (_c.equals(c)){
+                result.addAll(this.companies.get(_c));
+            }
+        }
+        return result;
     }
 
     @Override
