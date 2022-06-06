@@ -23,10 +23,14 @@ public class AirRegisterImp implements AirRegister {
         if(!this.companies.containsKey(c)) throw new UnknownCompanyException("La companyia no està registrada");
 
         for (Map.Entry<Company, Collection<Aircraft>> entry : this.companies.entrySet()) {
-            Company _c = entry.getKey();
-            if (_c.equals(c)) continue;
-            Collection<Aircraft> aircrafts = entry.getValue();
-            for (Aircraft _a : aircrafts) {
+            /*
+            No guardem el valor de "entry.getKey()" o de "entry.getValue()" en una variable ja que, al ser
+            metodes molt senzills en els quals nomes s'utilitzen una vegada, no ho creiem necessari. En cas
+            que els aquests valor s'utilitzessin mes d'una vegada si que seria mes convenient guardar-los
+            en una variable per tal de poder-los reutilitzar mes facilment i que el codi sigui mes llegible.
+             */
+            if (entry.getKey().equals(c)) continue;
+            for (Aircraft _a : entry.getValue()) {
                 if (_a.equals(a)) throw new DifferentCompanyException("El avió esta registrat en un altre companyia");
             }
         }
@@ -40,8 +44,7 @@ public class AirRegisterImp implements AirRegister {
     @Override
     public Company findCompany(AircraftID id) {
         for (Map.Entry<Company, Collection<Aircraft>> entry : this.companies.entrySet()) {
-            Collection<Aircraft> aircrafts = entry.getValue();
-            for (Aircraft _a : aircrafts) {
+            for (Aircraft _a : entry.getValue()) {
                 if (_a.getId().equals(id)) return entry.getKey();
             }
         }
@@ -52,8 +55,7 @@ public class AirRegisterImp implements AirRegister {
     public SortedSet<Aircraft> registeredAircrafts(Company c) {
         AscendingYearComparator ascendingYearComparator = new AscendingYearComparator();
         TreeSet<Aircraft> result = new TreeSet<>(ascendingYearComparator);
-        for (Map.Entry<Company, Collection<Aircraft>> entry : this.companies.entrySet()) {
-            Company _c = entry.getKey();
+        for (Company _c : this.companies.keySet()) {
             if (_c.equals(c)){
                 result.addAll(this.companies.get(_c));
             }
@@ -65,11 +67,9 @@ public class AirRegisterImp implements AirRegister {
     public SortedSet<Company> findCompanyByType(AircraftType t) {
         TreeSet<Company> result = new TreeSet<Company>();
         for (Map.Entry<Company, Collection<Aircraft>> entry : this.companies.entrySet()) {
-            Company c = entry.getKey();
-            Collection<Aircraft> aircrafts = this.companies.get(c);
-            for (Aircraft a : aircrafts) {
+            for (Aircraft a : entry.getValue()) {
                 if (a.getType().equals(t)) {
-                    result.add(c);
+                    result.add(entry.getKey());
                 }
             }
         }
